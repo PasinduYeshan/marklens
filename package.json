@@ -2,7 +2,7 @@
   "name": "marklens",
   "displayName": "MarkLens",
   "description": "A better way to read, explore, and navigate Markdown.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "marklens",
   "license": "MIT",
   "repository": {
@@ -144,7 +144,7 @@
       "editor/title": [
         {
           "command": "marklens.read",
-          "when": "editorLangId == markdown && !notebookEditorFocused",
+          "when": "(editorLangId == markdown && !notebookEditorFocused) || activeCustomEditorId == vscode.markdown.editor",
           "group": "navigation@9"
         },
         {
@@ -231,7 +231,7 @@
         },
         {
           "command": "marklens.read",
-          "when": "editorLangId == markdown"
+          "when": "editorLangId == markdown || activeCustomEditorId == vscode.markdown.editor"
         }
       ]
     },
@@ -276,7 +276,7 @@
         "command": "marklens.read",
         "key": "ctrl+e",
         "mac": "cmd+e",
-        "when": "editorTextFocus && marklens.editingFromReader"
+        "when": "marklens.editingFromReader && (editorTextFocus || activeCustomEditorId == vscode.markdown.editor)"
       }
     ],
     "configuration": {
@@ -388,6 +388,19 @@
           "type": "boolean",
           "default": false,
           "description": "Render single line breaks as <br>, like GitHub comments do."
+        },
+        "marklens.edit.editor": {
+          "type": "string",
+          "enum": [
+            "markdownEditor",
+            "textEditor"
+          ],
+          "enumDescriptions": [
+            "VS Code's built-in Markdown Editor: edit the formatted document (falls back to the text editor where it isn't available).",
+            "The plain text editor, opened at the line you were reading."
+          ],
+          "default": "markdownEditor",
+          "markdownDescription": "What **Edit** (`\u2318E` / `Ctrl+E`) in a MarkLens Reader opens, in the same tab. Press `\u2318E` again to return to the reader."
         }
       }
     }

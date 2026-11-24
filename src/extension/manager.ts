@@ -5,6 +5,8 @@ import { MarkLensView, type ViewHost } from './view';
 
 export const PREVIEW_VIEW_TYPE = 'marklens.preview';
 export const READER_VIEW_TYPE = 'marklens.reader';
+/** VS Code's built-in rich Markdown editor (markdown-language-features). */
+export const MARKDOWN_EDITOR_VIEW_TYPE = 'vscode.markdown.editor';
 
 /**
  * Tracks every MarkLens view. At most one unpinned preview exists; it follows the
@@ -24,8 +26,9 @@ export class MarkLensManager implements ViewHost, vscode.Disposable {
     this.disposables.push(
       vscode.window.onDidChangeActiveTextEditor((editor) => {
         this.onActiveEditor(editor);
-        void this.updateEditingContext(editor);
+        void this.updateEditingContext();
       }),
+      vscode.window.tabGroups.onDidChangeTabs(() => void this.updateEditingContext()),
       vscode.workspace.onDidChangeTextDocument((e) => {
         if (e.contentChanges.length === 0) return;
         for (const v of this.views) v.documentChanged(e.document);
@@ -136,7 +139,11 @@ export class MarkLensManager implements ViewHost, vscode.Disposable {
 
   // ---- Switching between reading and editing ----
 
-  /** Reader → text editor in the same place, at the line being read. A preview opens the source instead. */
+  /**
+   * Reader → editor in the same tab. Uses VS Code's rich Markdown Editor when it is
+   * available and chosen, otherwise the text editor at the line being read.
+   * A side preview opens the source next to it instead.
+   */
   edit(view: MarkLensView | undefined = this.activeView): void {
     if (!view) return;
     const uri = view.currentUri;
@@ -149,37 +156,60 @@ export class MarkLensManager implements ViewHost, vscode.Disposable {
     void (async () => {
       const column = view.panel.viewColumn ?? vscode.ViewColumn.Active;
       const readerTab = findTab((input) => input instanceof vscode.TabInputCustom && input.viewType === READER_VIEW_TYPE, column, view.panel);
-      const editor = await vscode.window.showTextDocument(uri, { viewColumn: column, preview: false });
-      const pos = new vscode.Position(line, 0);
-      editor.selection = new vscode.Selection(pos, pos);
-      editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.AtTop);
+      let opened = false;
+      if (editsWithMarkdownEditor()) {
+        try {
+          await vscode.commands.executeCommand('vscode.openWith', uri, MARKDOWN_EDITOR_VIEW_TYPE, { viewColumn: column, preview: false });
+          opened = true;
+        } catch {
+          /* fall back to the text editor */
+        }
+      }
+      if (!opened) {
+        const editor = await vscode.window.showTextDocument(uri, { viewColumn: column, preview: false });
+        const pos = new vscode.Position(line, 0);
+        editor.selection = new vscode.Selection(pos, pos);
+        editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.AtTop);
+      }
       this.editingFromReader.add(uri.toString());
       if (readerTab) await vscode.window.tabGroups.close(readerTab, true);
-      await this.updateEditingContext(editor);
+      await this.updateEditingContext();
     })();
   }
 
-  /** Text editor → reader in the same place, at the editor's top line. */
+  /** Text editor or Markdown Editor → reader in the same tab (at the editor's top line when known). */
   async read(uri?: vscode.Uri): Promise<void> {
     const editor = vscode.window.activeTextEditor;
-    const target = uri ?? (editor && isMarkdownDoc(editor.document) ? editor.document.uri : undefined);
+    const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
+    const richInput = activeTab?.input instanceof vscode.TabInputCustom && activeTab.input.viewType === MARKDOWN_EDITOR_VIEW_TYPE ? activeTab.input : undefined;
+    const target =
+      uri ?? richInput?.uri ?? (editor && isMarkdownDoc(editor.document) ? editor.document.uri : undefined);
     if (!target) {
       void vscode.window.showInformationMessage('Open a Markdown file first.');
       return;
     }
-    const sameEditor = editor && editor.document.uri.toString() === target.toString() ? editor : undefined;
-    const column = sameEditor?.viewColumn ?? vscode.ViewColumn.Active;
-    const textTab = sameEditor
-      ? findTab((input) => input instanceof vscode.TabInputText && input.uri.toString() === target.toString(), column)
-      : undefined;
-    if (sameEditor) this.pendingReaderLine.set(target.toString(), sameEditor.visibleRanges[0]?.start.line ?? 0);
+    let column = vscode.ViewColumn.Active;
+    let closeTab: vscode.Tab | undefined;
+    if (richInput && richInput.uri.toString() === target.toString()) {
+      column = activeTab!.group.viewColumn;
+      closeTab = activeTab;
+    } else if (editor && editor.document.uri.toString() === target.toString()) {
+      column = editor.viewColumn ?? column;
+      closeTab = findTab((input) => input instanceof vscode.TabInputText && input.uri.toString() === target.toString(), column);
+      this.pendingReaderLine.set(target.toString(), editor.visibleRanges[0]?.start.line ?? 0);
+    }
     await vscode.commands.executeCommand('vscode.openWith', target, READER_VIEW_TYPE, { viewColumn: column, preview: false });
     this.editingFromReader.delete(target.toString());
-    if (textTab) await vscode.window.tabGroups.close(textTab, true);
+    if (closeTab) await vscode.window.tabGroups.close(closeTab, true);
+    await this.updateEditingContext();
   }
 
-  private async updateEditingContext(editor = vscode.window.activeTextEditor): Promise<void> {
-    const on = !!editor && this.editingFromReader.has(editor.document.uri.toString());
+  /** True while the active editor (text or Markdown Editor) was opened from a reader, so ⌘E goes back. */
+  private async updateEditingContext(): Promise<void> {
+    const tab = vscode.window.tabGroups.activeTabGroup.activeTab;
+    const input = tab?.input;
+    const uri = input instanceof vscode.TabInputText || input instanceof vscode.TabInputCustom ? input.uri : undefined;
+    const on = !!uri && this.editingFromReader.has(uri.toString());
     await vscode.commands.executeCommand('setContext', 'marklens.editingFromReader', on);
   }
 
@@ -231,6 +261,14 @@ export class MarkLensManager implements ViewHost, vscode.Disposable {
 export function panelOptions(): vscode.WebviewPanelOptions & vscode.WebviewOptions {
   // Context is retained so diagrams, zoom levels and scroll positions survive tab switches.
   return { enableScripts: true, retainContextWhenHidden: true, enableFindWidget: false };
+}
+
+/** The "Edit" target: VS Code's Markdown Editor if this VS Code has it and the user prefers it. */
+function editsWithMarkdownEditor(): boolean {
+  if (vscode.workspace.getConfiguration('marklens').get('edit.editor', 'markdownEditor') !== 'markdownEditor') return false;
+  const md = vscode.extensions.getExtension('vscode.markdown-language-features');
+  const editors = (md?.packageJSON?.contributes?.customEditors ?? []) as { viewType?: string }[];
+  return editors.some((e) => e.viewType === MARKDOWN_EDITOR_VIEW_TYPE);
 }
 
 function isMarkdownDoc(doc: vscode.TextDocument): boolean {

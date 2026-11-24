@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Edit opens VS Code's built-in Markdown Editor (formatted editing) in the reader's tab; `⌘E` or the book icon returns to the reader. Set `marklens.edit.editor` to `textEditor` for the plain editor at the current line.
+
 ## 0.1.2
 
 - Paper theme: a warm, paper-like page with dark ink.

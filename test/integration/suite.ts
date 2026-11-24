@@ -100,25 +100,47 @@ const tests: [string, () => Promise<void>][] = [
     },
   ],
   [
-    'Edit switches the reader tab to a text editor in place, and Read switches back',
+    'Edit opens VS Code\'s Markdown Editor in the reader\'s tab, and Read switches back',
     async () => {
       await vscode.commands.executeCommand('workbench.action.closeAllEditors');
       const uri = file('reference/api.md');
       await vscode.commands.executeCommand('vscode.openWith', uri, 'marklens.reader');
       await waitFor('reader of api.md', async () => (await views()).find((x) => x.mode === 'reader' && x.stats?.uri.endsWith('/reference/api.md')));
       const tabs = () => vscode.window.tabGroups.activeTabGroup.tabs;
-      const isText = (t: vscode.Tab) => t.input instanceof vscode.TabInputText && t.input.uri.toString() === uri.toString();
+      const isRich = (t: vscode.Tab) => t.input instanceof vscode.TabInputCustom && t.input.viewType === 'vscode.markdown.editor';
       const isReader = (t: vscode.Tab) => t.input instanceof vscode.TabInputCustom && t.input.viewType === 'marklens.reader';
 
       await vscode.commands.executeCommand('marklens.edit');
-      await waitFor('text editor replaces the reader', async () => tabs().some(isText) && !tabs().some(isReader));
-      assert.equal(vscode.window.activeTextEditor?.document.uri.toString(), uri.toString());
+      await waitFor('Markdown Editor replaces the reader', async () => tabs().some(isRich) && !tabs().some(isReader));
       assert.equal(tabs().length, 1, 'one tab, edited in place');
 
       await vscode.commands.executeCommand('marklens.read');
-      await waitFor('reader replaces the text editor', async () => tabs().some(isReader) && !tabs().some(isText));
+      await waitFor('reader replaces the Markdown Editor', async () => tabs().some(isReader) && !tabs().some(isRich));
       await waitFor('reader rendered', async () => (await views()).find((x) => x.mode === 'reader' && x.stats?.uri.endsWith('/reference/api.md')));
       assert.equal(tabs().length, 1, 'one tab, read in place');
+    },
+  ],
+  [
+    'with edit.editor = textEditor, Edit opens the text editor in place',
+    async () => {
+      const config = vscode.workspace.getConfiguration('marklens');
+      await config.update('edit.editor', 'textEditor', vscode.ConfigurationTarget.Global);
+      try {
+        await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        const uri = file('reference/api.md');
+        await vscode.commands.executeCommand('vscode.openWith', uri, 'marklens.reader');
+        await waitFor('reader of api.md', async () => (await views()).find((x) => x.mode === 'reader' && x.stats?.uri.endsWith('/reference/api.md')));
+        const tabs = () => vscode.window.tabGroups.activeTabGroup.tabs;
+        await vscode.commands.executeCommand('marklens.edit');
+        await waitFor('text editor replaces the reader', async () =>
+          tabs().length === 1 && tabs()[0].input instanceof vscode.TabInputText ? true : undefined,
+        );
+        assert.equal(vscode.window.activeTextEditor?.document.uri.toString(), uri.toString());
+        await vscode.commands.executeCommand('marklens.read');
+        await waitFor('reader back', async () => tabs().length === 1 && tabs()[0].input instanceof vscode.TabInputCustom ? true : undefined);
+      } finally {
+        await config.update('edit.editor', undefined, vscode.ConfigurationTarget.Global);
+      }
     },
   ],
   [

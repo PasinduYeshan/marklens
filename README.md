@@ -9,7 +9,7 @@ MarkLens is a Markdown reader for VS Code, built for long technical documents: a
 - **Diagrams you can explore.** Every Mermaid diagram has its own zoom and pan, a full-panel view, fit and 1:1, and export to SVG or PNG. The page itself never zooms.
 - **Browse docs like a website.** Links to other Markdown files open in the reader, not in an editor. Back and Forward work like a browser and return you to where you were. Anchors, `../relative` paths, folder links (`docs/` opens `docs/README.md`) and `file.ts#L42` source links all work.
 - **Contents that follow you.** A right-hand table of contents highlights the section you're reading. You can collapse it, resize it and hide it. In narrow panels it becomes a drawer.
-- **Read and edit in one tab.** Press `⌘E` / `Ctrl+E` (or the pencil) to turn the reader tab into a text editor at the line you were reading. Press `⌘E` again (or the book icon) to switch back.
+- **Read and edit in one tab.** Press `⌘E` / `Ctrl+E` (or the pencil) to edit the document in the same tab, in VS Code's built-in Markdown Editor (formatted editing) or, if you prefer, the text editor at the line you were reading. Press `⌘E` again (or the book icon) to switch back.
 - **A standalone reader.** Open any Markdown file in MarkLens without its source editor: right-click › *Open in MarkLens Reader*, or *Open With…*. Pin a preview so it stays on one document.
 - **Find with context.** ⌘F / Ctrl+F highlights every match, including text inside diagrams. The table of contents shows how many matches each section has.
 - **Comfortable reading.** Measured line length, VS Code theme colors (light, dark and high contrast), syntax-highlighted code with copy buttons, and wide tables that scroll sideways. Text size and line width are one click away.
@@ -24,7 +24,7 @@ MarkLens is a Markdown reader for VS Code, built for long technical documents: a
 | Read a file without opening it | Right-click it in the Explorer › **Open in MarkLens Reader** |
 | Keep a preview on one document | Click the pin in the preview's title bar |
 | Open a link in a new pinned preview | `⌘`/`Ctrl`+click it, or middle-click |
-| Edit what you're reading | `⌘E` / `Ctrl+E`, or the pencil. The reader becomes a text editor in the same tab; `⌘E` switches back |
+| Edit what you're reading | `⌘E` / `Ctrl+E`, or the pencil. The reader becomes VS Code's Markdown Editor (or the text editor) in the same tab; `⌘E` or the book icon switches back |
 | Read a file you're editing | Click the book icon in the editor title |
 | Jump to the source from a side preview | Click **Open Source** in the title bar |
 
@@ -48,6 +48,7 @@ A plain scroll wheel always scrolls the page, so diagrams never trap the reader.
 | Setting | Default | |
 | --- | --- | --- |
 | `marklens.theme` | `auto` | `auto` follows VS Code; `light`, `paper` or `dark` force a reading theme (also under *Aa* in the toolbar) |
+| `marklens.edit.editor` | `markdownEditor` | What Edit opens: VS Code's Markdown Editor, or `textEditor` |
 | `marklens.typography.fontFamily` | system UI font | Body text font |
 | `marklens.typography.codeFontFamily` | `editor.fontFamily` | Code font |
 | `marklens.typography.fontSize` | `15` | Body text size (px) |
