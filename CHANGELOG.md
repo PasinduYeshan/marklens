@@ -1,30 +1,14 @@
 # Changelog
 
-## 0.1.3
+## 0.2.0
 
-- Edit opens VS Code's built-in Markdown Editor (formatted editing) in the reader's tab; `⌘E` or the book icon returns to the reader. Set `marklens.edit.editor` to `textEditor` for the plain editor at the current line.
+First public release.
 
-## 0.1.2
-
-- Paper theme: a warm, paper-like page with dark ink.
-- Mermaid diagrams take their colours from the reader theme: tinted nodes, accent borders and lines, notes in a soft amber.
-- Forced Light, Paper and Dark themes no longer pick up VS Code's own quote and inline-code colours.
-
-## 0.1.1
-
-- Edit ⇄ Read: `⌘E` / `Ctrl+E` switches a reader tab to a text editor in place, at the same line, and back.
-- Reading theme: Auto (follows VS Code), Light or Dark, in the *Aa* pop-over or `marklens.theme`.
-- Diagrams stay visible while they re-render for a new theme.
-
-## 0.1.0
-
-First preview release.
-
-- Side preview that follows the active Markdown editor, with pinning.
-- MarkLens Reader: open Markdown files without a source editor.
-- In-reader navigation between documents with Back/Forward and scroll restore.
-- Mermaid diagrams with per-diagram zoom, pan, full-panel view and SVG/PNG export.
-- Right-hand table of contents: collapsible, resizable, follows the reading position.
-- Find in document with per-section match counts.
-- GFM, KaTeX math, footnotes, task lists, callouts, front matter, syntax highlighting.
-- Live updates (including unsaved edits) and optional scroll sync.
+- **Reader and side preview.** Open Markdown files in the MarkLens Reader without a source editor, or preview beside the editor. The side preview follows the active editor; pin it to keep a document.
+- **Navigation.** Links to other Markdown files open in MarkLens with Back/Forward and scroll restore; anchors, relative paths, folder READMEs and `file#L42` source links work. ⌘/Ctrl+click opens a link in a new pinned preview.
+- **Mermaid diagrams.** Each diagram has its own zoom and pan, a full-panel view, fit and 1:1, SVG/PNG export and copy as image. Colours follow the reader theme.
+- **Table of contents.** Collapsible, resizable, follows the section you're reading, becomes a drawer in narrow panels.
+- **Find** with highlighted matches and per-section counts.
+- **Edit ⇄ Read** in the same tab with ⌘E / Ctrl+E, using VS Code's Markdown Editor or the text editor (`marklens.edit.editor`).
+- **Themes**: Auto (follows VS Code), Light, Paper and Dark; text size and line width in the *Aa* pop-over.
+- GitHub Flavored Markdown, KaTeX math, footnotes, task lists, GitHub alerts and Obsidian-style callouts, front matter, syntax highlighting with copy buttons, live updates (including unsaved edits) and optional scroll sync.

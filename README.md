@@ -4,6 +4,13 @@
 
 MarkLens is a Markdown reader for VS Code, built for long technical documents: architecture designs, security reports, investigations and API references. It keeps you in the document. Diagrams zoom on their own, links to other files open in the reader, and a table of contents shows where you are.
 
+![MarkLens reading an architecture document in a dark theme, with a Mermaid diagram and the table of contents](media/screenshots/reader-dark.png)
+
+## Install
+
+- **VS Code Marketplace:** search for *MarkLens* in the Extensions view.
+- **From a release:** download `marklens-<version>.vsix` from [GitHub Releases](https://github.com/PasinduYeshan/marklens/releases), then run `code --install-extension marklens-<version>.vsix`, or use *Extensions › … › Install from VSIX…*.
+
 ## Highlights
 
 - **Diagrams you can explore.** Every Mermaid diagram has its own zoom and pan, a full-panel view, fit and 1:1, and export to SVG or PNG. The page itself never zooms.
@@ -15,6 +22,15 @@ MarkLens is a Markdown reader for VS Code, built for long technical documents: a
 - **Comfortable reading.** Measured line length, VS Code theme colors (light, dark and high contrast), syntax-highlighted code with copy buttons, and wide tables that scroll sideways. Text size and line width are one click away.
 - **Rich Markdown.** GitHub Flavored Markdown, Mermaid, KaTeX math, task lists, footnotes, GitHub alerts and Obsidian-style callouts (`> [!tip] Title`), front matter, and images (click to zoom).
 - **Live and fast.** Unsaved edits show up as you type. Only changed blocks re-render, so diagrams keep their zoom. Scroll sync with the editor is optional, and a 100 KB document with 480 sections loads in about 100 ms.
+
+## Screenshots
+
+| | |
+| --- | --- |
+| ![A sequence diagram expanded to fill the panel, with zoom controls](media/screenshots/diagram-expanded.png) | ![Find in a security report on the Paper theme, with match counts per section in the contents](media/screenshots/find-paper.png) |
+| **Diagrams expand to the whole panel** with zoom, fit, 1:1 and export. | **Find** highlights every match and counts them per section (Paper theme). |
+| ![Reading settings with text size, line width and theme](media/screenshots/settings-light.png) | |
+| **Reading settings**: text size, line width and Auto/Light/Paper/Dark themes. | |
 
 ## Getting started
 

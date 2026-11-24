@@ -136,6 +136,9 @@ async function handle(m: WebviewMessage): Promise<void> {
     case 'log':
       console[m.level === 'info' ? 'log' : m.level](`[webview] ${m.message}`);
       return;
+    case 'stats':
+      if (m.stats.diagramsDone + m.stats.diagramsFailed === m.stats.diagrams) void runDemo();
+      return;
     default:
       return;
   }
@@ -174,3 +177,38 @@ setInterval(async () => {
     post({ type: 'update', uri: cur.uri, text });
   }
 }, 1000);
+
+// Demo states for README screenshots, e.g. ?scroll=overview&find=processor&expand=2&settings=1
+let demoDone = false;
+async function runDemo(): Promise<void> {
+  if (demoDone) return;
+  demoDone = true;
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const scroll = params.get('scroll');
+  if (scroll) {
+    const target = document.getElementById(scroll);
+    const scroller = document.querySelector<HTMLElement>('.ml-scroller')!;
+    if (target) scroller.scrollTop += target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 12;
+    await wait(200);
+  }
+  const find = params.get('find');
+  if (find) {
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', metaKey: true, ctrlKey: true, bubbles: true }));
+    const input = document.querySelector<HTMLInputElement>('.ml-search-input')!;
+    input.value = find;
+    input.dispatchEvent(new Event('input'));
+    await wait(300);
+    input.blur();
+  }
+  const expand = Number(params.get('expand'));
+  if (expand) {
+    document.querySelectorAll<HTMLButtonElement>('.ml-expand')[expand - 1]?.click();
+    await wait(300);
+  }
+  if (params.get('settings')) {
+    document.querySelector<HTMLButtonElement>('button[aria-label="Reading settings"]')?.click();
+    await wait(100);
+    (document.activeElement as HTMLElement | null)?.blur();
+  }
+  document.body.dataset.demoReady = '1';
+}
