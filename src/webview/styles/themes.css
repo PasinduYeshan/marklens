@@ -1,0 +1,133 @@
+/* Forced reading themes ("marklens.theme": light | dark). They redefine the VS Code
+   theme variables MarkLens reads, so every token below derives from them as usual.
+   `html body` outranks the variables VS Code sets on <html>. */
+
+html body[data-ml-theme='light'] {
+  --vscode-editor-background: #ffffff;
+  --vscode-editor-foreground: #1f2328;
+  --vscode-descriptionForeground: #59636e;
+  --vscode-textLink-foreground: #0969da;
+  --vscode-focusBorder: #0969da;
+  --vscode-toolbar-hoverBackground: rgba(31, 35, 40, 0.08);
+  --vscode-editorWidget-background: #f6f8fa;
+  --vscode-editorWidget-foreground: #1f2328;
+  --vscode-editorWidget-border: #d1d9e0;
+  --vscode-input-background: #ffffff;
+  --vscode-input-foreground: #1f2328;
+  --vscode-input-border: #d1d9e0;
+  --vscode-widget-shadow: rgba(31, 35, 40, 0.15);
+  --vscode-editor-findMatchBackground: #f2cc60;
+  --vscode-editor-findMatchHighlightBackground: rgba(255, 213, 79, 0.45);
+  --vscode-editor-findMatchBorder: transparent;
+  --vscode-editor-selectionBackground: rgba(9, 105, 218, 0.2);
+  --vscode-charts-blue: #0969da;
+  --vscode-charts-green: #1a7f37;
+  --vscode-charts-purple: #8250df;
+  --vscode-charts-yellow: #9a6700;
+  --vscode-charts-red: #d1242f;
+  --vscode-badge-background: #0969da;
+  --vscode-badge-foreground: #ffffff;
+  --vscode-menu-background: #ffffff;
+  --vscode-menu-foreground: #1f2328;
+  --vscode-menu-border: #d1d9e0;
+  --vscode-menu-selectionBackground: #0969da;
+  --vscode-menu-selectionForeground: #ffffff;
+  --vscode-button-background: #0969da;
+  --vscode-button-foreground: #ffffff;
+  --vscode-list-hoverBackground: rgba(31, 35, 40, 0.06);
+  --vscode-inputOption-activeBackground: rgba(9, 105, 218, 0.14);
+  --vscode-inputOption-activeForeground: #1f2328;
+  --vscode-sash-hoverBorder: #0969da;
+  --vscode-errorForeground: #d1242f;
+  --vscode-contrastBorder: transparent;
+  --vscode-scrollbarSlider-background: rgba(31, 35, 40, 0.18);
+  --vscode-scrollbarSlider-hoverBackground: rgba(31, 35, 40, 0.28);
+  --vscode-scrollbarSlider-activeBackground: rgba(31, 35, 40, 0.36);
+}
+
+html body[data-ml-theme='dark'] {
+  --vscode-editor-background: #0d1117;
+  --vscode-editor-foreground: #e6edf3;
+  --vscode-descriptionForeground: #9198a1;
+  --vscode-textLink-foreground: #4493f8;
+  --vscode-focusBorder: #4493f8;
+  --vscode-toolbar-hoverBackground: rgba(177, 186, 196, 0.12);
+  --vscode-editorWidget-background: #161b22;
+  --vscode-editorWidget-foreground: #e6edf3;
+  --vscode-editorWidget-border: #3d444d;
+  --vscode-input-background: #0d1117;
+  --vscode-input-foreground: #e6edf3;
+  --vscode-input-border: #3d444d;
+  --vscode-widget-shadow: rgba(1, 4, 9, 0.6);
+  --vscode-editor-findMatchBackground: #9e6a03;
+  --vscode-editor-findMatchHighlightBackground: rgba(187, 128, 9, 0.4);
+  --vscode-editor-findMatchBorder: transparent;
+  --vscode-editor-selectionBackground: rgba(68, 147, 248, 0.3);
+  --vscode-charts-blue: #4493f8;
+  --vscode-charts-green: #3fb950;
+  --vscode-charts-purple: #ab7df8;
+  --vscode-charts-yellow: #d29922;
+  --vscode-charts-red: #f85149;
+  --vscode-badge-background: #1f6feb;
+  --vscode-badge-foreground: #ffffff;
+  --vscode-menu-background: #161b22;
+  --vscode-menu-foreground: #e6edf3;
+  --vscode-menu-border: #3d444d;
+  --vscode-menu-selectionBackground: #1f6feb;
+  --vscode-menu-selectionForeground: #ffffff;
+  --vscode-button-background: #1f6feb;
+  --vscode-button-foreground: #ffffff;
+  --vscode-list-hoverBackground: rgba(177, 186, 196, 0.08);
+  --vscode-inputOption-activeBackground: rgba(68, 147, 248, 0.25);
+  --vscode-inputOption-activeForeground: #e6edf3;
+  --vscode-sash-hoverBorder: #4493f8;
+  --vscode-errorForeground: #f85149;
+  --vscode-contrastBorder: transparent;
+  --vscode-scrollbarSlider-background: rgba(177, 186, 196, 0.2);
+  --vscode-scrollbarSlider-hoverBackground: rgba(177, 186, 196, 0.3);
+  --vscode-scrollbarSlider-activeBackground: rgba(177, 186, 196, 0.4);
+}
+
+/* Paper: a warm page with dark ink, for long reading sessions. */
+html body[data-ml-theme='paper'] {
+  --vscode-editor-background: #f6f1e7;
+  --vscode-editor-foreground: #2b2721;
+  --vscode-descriptionForeground: #6b6357;
+  --vscode-textLink-foreground: #275ea3;
+  --vscode-focusBorder: #275ea3;
+  --vscode-toolbar-hoverBackground: rgba(43, 39, 33, 0.08);
+  --vscode-editorWidget-background: #efe9dc;
+  --vscode-editorWidget-foreground: #2b2721;
+  --vscode-editorWidget-border: #d8cfbe;
+  --vscode-input-background: #fbf8f2;
+  --vscode-input-foreground: #2b2721;
+  --vscode-input-border: #d8cfbe;
+  --vscode-widget-shadow: rgba(60, 48, 30, 0.16);
+  --vscode-editor-findMatchBackground: #f0c44c;
+  --vscode-editor-findMatchHighlightBackground: rgba(240, 196, 76, 0.45);
+  --vscode-editor-findMatchBorder: transparent;
+  --vscode-editor-selectionBackground: rgba(39, 94, 163, 0.18);
+  --vscode-charts-blue: #275ea3;
+  --vscode-charts-green: #3b7a37;
+  --vscode-charts-purple: #7a4bad;
+  --vscode-charts-yellow: #946300;
+  --vscode-charts-red: #b4382c;
+  --vscode-badge-background: #275ea3;
+  --vscode-badge-foreground: #ffffff;
+  --vscode-menu-background: #fbf8f2;
+  --vscode-menu-foreground: #2b2721;
+  --vscode-menu-border: #d8cfbe;
+  --vscode-menu-selectionBackground: #275ea3;
+  --vscode-menu-selectionForeground: #ffffff;
+  --vscode-button-background: #275ea3;
+  --vscode-button-foreground: #ffffff;
+  --vscode-list-hoverBackground: rgba(43, 39, 33, 0.06);
+  --vscode-inputOption-activeBackground: rgba(39, 94, 163, 0.14);
+  --vscode-inputOption-activeForeground: #2b2721;
+  --vscode-sash-hoverBorder: #275ea3;
+  --vscode-errorForeground: #b4382c;
+  --vscode-contrastBorder: transparent;
+  --vscode-scrollbarSlider-background: rgba(43, 39, 33, 0.18);
+  --vscode-scrollbarSlider-hoverBackground: rgba(43, 39, 33, 0.28);
+  --vscode-scrollbarSlider-activeBackground: rgba(43, 39, 33, 0.36);
+}

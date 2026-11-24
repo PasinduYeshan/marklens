@@ -1,0 +1,10 @@
+@import '@vscode/codicons/dist/codicon.css';
+@import 'katex/dist/katex.min.css';
+@import './tokens.css';
+@import './themes.css';
+@import './shell.css';
+@import './document.css';
+@import './code.css';
+@import './diagram.css';
+@import './toc.css';
+@import './widgets.css';

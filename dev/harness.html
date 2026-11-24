@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MarkLens harness</title>
+<link rel="stylesheet" href="/dist/webview/styles.css">
+<style>
+  /* Approximations of VS Code's Light Modern / Dark Modern webview variables. */
+  body.vscode-light {
+    --vscode-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    --vscode-editor-font-family: Menlo, Monaco, 'Courier New', monospace;
+    --vscode-editor-background: #ffffff; --vscode-editor-foreground: #3b3b3b;
+    --vscode-descriptionForeground: #3b3b3b; --vscode-textLink-foreground: #005fb8;
+    --vscode-focusBorder: #005fb8; --vscode-toolbar-hoverBackground: rgba(184,184,184,0.31);
+    --vscode-editorWidget-background: #f8f8f8; --vscode-editorWidget-border: #c8c8c8;
+    --vscode-input-background: #ffffff; --vscode-input-border: #cecece; --vscode-input-foreground: #3b3b3b;
+    --vscode-widget-shadow: rgba(0,0,0,0.16); --vscode-editor-findMatchBackground: #a8ac94;
+    --vscode-editor-findMatchHighlightBackground: rgba(234,92,0,0.33);
+    --vscode-charts-blue: #1a85ff; --vscode-charts-green: #388a34; --vscode-charts-purple: #652d90;
+    --vscode-charts-yellow: #bf8803; --vscode-charts-red: #e51400;
+    --vscode-badge-background: #cccccc; --vscode-badge-foreground: #3b3b3b;
+    --vscode-menu-background: #ffffff; --vscode-menu-selectionBackground: #005fb8; --vscode-menu-selectionForeground: #ffffff;
+    --vscode-button-background: #005fb8; --vscode-button-foreground: #ffffff;
+    --vscode-list-hoverBackground: #f2f2f2; --vscode-inputOption-activeBackground: rgba(190,190,190,0.2);
+    --vscode-errorForeground: #f85149;
+  }
+  body.vscode-dark {
+    --vscode-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    --vscode-editor-font-family: Menlo, Monaco, 'Courier New', monospace;
+    --vscode-editor-background: #1f1f1f; --vscode-editor-foreground: #cccccc;
+    --vscode-descriptionForeground: #9d9d9d; --vscode-textLink-foreground: #4daafc;
+    --vscode-focusBorder: #0078d4; --vscode-toolbar-hoverBackground: rgba(90,93,94,0.31);
+    --vscode-editorWidget-background: #202020; --vscode-editorWidget-border: #313131;
+    --vscode-input-background: #313131; --vscode-input-border: #3c3c3c; --vscode-input-foreground: #cccccc;
+    --vscode-widget-shadow: rgba(0,0,0,0.36); --vscode-editor-findMatchBackground: #9e6a03;
+    --vscode-editor-findMatchHighlightBackground: rgba(234,92,0,0.33);
+    --vscode-charts-blue: #3794ff; --vscode-charts-green: #89d185; --vscode-charts-purple: #b180d7;
+    --vscode-charts-yellow: #cca700; --vscode-charts-red: #f14c4c;
+    --vscode-badge-background: #616161; --vscode-badge-foreground: #f8f8f8;
+    --vscode-menu-background: #1f1f1f; --vscode-menu-selectionBackground: #0078d4; --vscode-menu-selectionForeground: #ffffff;
+    --vscode-button-background: #0078d4; --vscode-button-foreground: #ffffff;
+    --vscode-list-hoverBackground: #2a2d2e; --vscode-inputOption-activeBackground: rgba(36,137,219,0.51);
+    --vscode-errorForeground: #f85149;
+  }
+  body.vscode-light { --vscode-textBlockQuote-background: #f2f2f2; --vscode-textPreformat-foreground: #a31515; --vscode-textPreformat-background: rgba(0,0,0,0.1); }
+  body.vscode-dark { --vscode-textBlockQuote-background: #2b2b2b; --vscode-textPreformat-foreground: #d7ba7d; --vscode-textPreformat-background: rgba(255,255,255,0.1); }
+  /* VS Code injects these defaults into every webview (pre/index.html). */
+  blockquote { background: var(--vscode-textBlockQuote-background); border-color: var(--vscode-textBlockQuote-border); }
+  code { color: var(--vscode-textPreformat-foreground); background-color: var(--vscode-textPreformat-background); padding: 1px 3px; border-radius: 4px; }
+  pre code { background-color: transparent; padding: 0; }
+  a:hover { color: var(--vscode-textLink-activeForeground); }
+</style>
+</head>
+<body class="vscode-light">
+<div id="app"></div>
+<script type="module" src="/dist/dev/harness.js"></script>
+<script type="module" src="/dist/webview/main.js"></script>
+</body>
+</html>

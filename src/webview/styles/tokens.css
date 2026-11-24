@@ -1,0 +1,63 @@
+/* Design tokens. Everything derives from the VS Code theme so the reader matches
+   any color theme, including high contrast. One accent, one radius, a 4 px grid. */
+
+body {
+  --ml-bg: var(--vscode-editor-background, #ffffff);
+  --ml-fg: var(--vscode-editor-foreground, #1f2328);
+  --ml-muted: var(--vscode-descriptionForeground, #59636e);
+  --ml-border: color-mix(in srgb, var(--ml-fg) 14%, var(--ml-bg));
+  --ml-border-strong: color-mix(in srgb, var(--ml-fg) 24%, var(--ml-bg));
+  --ml-surface: color-mix(in srgb, var(--ml-fg) 4%, var(--ml-bg));
+  --ml-surface-2: color-mix(in srgb, var(--ml-fg) 8%, var(--ml-bg));
+  --ml-hover: var(--vscode-toolbar-hoverBackground, color-mix(in srgb, var(--ml-fg) 9%, transparent));
+  --ml-accent: var(--vscode-textLink-foreground, #0969da);
+  --ml-accent-soft: color-mix(in srgb, var(--ml-accent) 16%, transparent);
+  --ml-focus: var(--vscode-focusBorder, #0969da);
+  --ml-shadow: var(--vscode-widget-shadow, rgba(0, 0, 0, 0.18));
+  --ml-widget-bg: var(--vscode-editorWidget-background, var(--ml-bg));
+  --ml-widget-fg: var(--vscode-editorWidget-foreground, var(--ml-fg));
+  --ml-widget-border: var(--vscode-editorWidget-border, var(--ml-border));
+  --ml-input-bg: var(--vscode-input-background, var(--ml-bg));
+  --ml-input-fg: var(--vscode-input-foreground, var(--ml-fg));
+  --ml-input-border: var(--vscode-input-border, var(--ml-border-strong));
+  --ml-find: var(--vscode-editor-findMatchHighlightBackground, rgba(234, 92, 0, 0.33));
+  --ml-find-current: var(--vscode-editor-findMatchBackground, #f8c84a);
+  --ml-find-current-border: var(--vscode-editor-findMatchBorder, transparent);
+  --ml-error: var(--vscode-errorForeground, #d1242f);
+  --ml-code-fg: color-mix(in srgb, var(--ml-fg) 88%, var(--ml-accent));
+
+  --ml-note: var(--vscode-charts-blue, #0969da);
+  --ml-tip: var(--vscode-charts-green, #1a7f37);
+  --ml-important: var(--vscode-charts-purple, #8250df);
+  --ml-warning: var(--vscode-charts-yellow, #9a6700);
+  --ml-caution: var(--vscode-charts-red, #d1242f);
+
+  --ml-font-ui: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
+  --ml-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --ml-font-code: var(--vscode-editor-font-family, ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace);
+  --ml-font-size: 15px;
+  --ml-line-height: 1.65;
+  --ml-ui-size: 13px;
+
+  --ml-radius: 6px;
+  --ml-toolbar-h: 38px;
+  --ml-content-width: 840px;
+  --ml-gap: 1em;
+}
+
+.ml-app[data-width='narrow'] { --ml-content-width: 680px; }
+.ml-app[data-width='medium'] { --ml-content-width: 840px; }
+.ml-app[data-width='wide'] { --ml-content-width: 1100px; }
+.ml-app[data-width='full'] { --ml-content-width: 100%; }
+.ml-app[data-spacing='compact'] { --ml-gap: 0.7em; }
+.ml-app[data-spacing='comfortable'] { --ml-gap: 1em; }
+.ml-app[data-spacing='relaxed'] { --ml-gap: 1.35em; }
+
+body { color-scheme: light; }
+body.ml-dark { color-scheme: dark; }
+
+/* In dark themes the chart palette is used as-is; text on tinted callouts stays the foreground. */
+body.vscode-high-contrast {
+  --ml-border: var(--vscode-contrastBorder, var(--ml-fg));
+  --ml-border-strong: var(--vscode-contrastBorder, var(--ml-fg));
+}

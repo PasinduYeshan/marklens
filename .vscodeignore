@@ -1,0 +1,10 @@
+**
+!dist/extension.js
+!dist/webview/**
+!media/icon.png
+!media/tab-icon-*.svg
+!README.md
+!CHANGELOG.md
+!LICENSE
+!package.json
+dist/**/*.map

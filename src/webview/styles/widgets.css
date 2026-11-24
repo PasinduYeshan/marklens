@@ -1,0 +1,145 @@
+/* ---- Find ---- */
+
+.ml-search {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 1 380px;
+  min-width: 180px;
+  height: 28px;
+  padding: 0 2px 0 6px;
+  border: 1px solid var(--ml-input-border);
+  border-radius: var(--ml-radius);
+  background: var(--ml-input-bg);
+  color: var(--ml-input-fg);
+}
+.ml-search:focus-within { border-color: var(--ml-focus); }
+.ml-search-icon { color: var(--ml-muted); display: grid; place-items: center; }
+.ml-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0 4px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.ml-search-count {
+  flex: none;
+  padding: 0 4px;
+  font-size: 12px;
+  color: var(--ml-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ml-search.ml-no-results .ml-search-count { color: var(--ml-error); }
+.ml-search .ml-icon-btn { width: 22px; height: 22px; }
+
+::highlight(ml-search) { background-color: var(--ml-find); }
+::highlight(ml-search-current) { background-color: var(--ml-find-current); }
+
+/* ---- Toast ---- */
+
+.ml-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 8px 12px;
+  border: 1px solid var(--ml-widget-border);
+  border-radius: var(--ml-radius);
+  background: var(--ml-widget-bg);
+  color: var(--ml-widget-fg);
+  box-shadow: 0 4px 16px var(--ml-shadow);
+  transform: translate(-50%, 8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.ml-toast.ml-visible { opacity: 1; transform: translate(-50%, 0); }
+.ml-toast-error .codicon { color: var(--ml-error); }
+.ml-toast-info .codicon { color: var(--ml-tip); }
+
+/* ---- Menu ---- */
+
+.ml-menu {
+  position: fixed;
+  z-index: 150;
+  min-width: 200px;
+  padding: 4px;
+  border: 1px solid var(--vscode-menu-border, var(--ml-widget-border));
+  border-radius: var(--ml-radius);
+  background: var(--vscode-menu-background, var(--ml-widget-bg));
+  color: var(--vscode-menu-foreground, var(--ml-widget-fg));
+  box-shadow: 0 4px 16px var(--ml-shadow);
+}
+.ml-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: var(--ml-ui-size) var(--ml-font-ui);
+  text-align: left;
+  cursor: pointer;
+}
+.ml-menu-item:hover, .ml-menu-item:focus-visible {
+  background: var(--vscode-menu-selectionBackground, var(--ml-accent));
+  color: var(--vscode-menu-selectionForeground, #fff);
+  outline: none;
+}
+.ml-menu-spacer { width: 16px; }
+
+/* ---- Reading settings pop-over ---- */
+
+.ml-popover {
+  position: fixed;
+  z-index: 150;
+  width: 280px;
+  padding: 12px;
+  border: 1px solid var(--ml-widget-border);
+  border-radius: 8px;
+  background: var(--ml-widget-bg);
+  color: var(--ml-widget-fg);
+  box-shadow: 0 6px 20px var(--ml-shadow);
+  display: grid;
+  gap: 12px;
+}
+.ml-field { display: grid; gap: 6px; }
+.ml-field-label { font-size: 12px; font-weight: 600; color: var(--ml-muted); }
+.ml-stepper { display: flex; align-items: center; gap: 4px; }
+.ml-stepper .ml-icon-btn { border: 1px solid var(--ml-border-strong); }
+.ml-stepper-value { min-width: 48px; text-align: center; font-variant-numeric: tabular-nums; }
+.ml-segmented {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 2px;
+  border: 1px solid var(--ml-border-strong);
+  border-radius: var(--ml-radius);
+}
+.ml-segmented button {
+  height: 24px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--ml-fg);
+  font: 12px var(--ml-font-ui);
+  cursor: pointer;
+}
+.ml-segmented button:hover { background: var(--ml-hover); }
+.ml-segmented button[aria-checked='true'] {
+  background: var(--vscode-button-background, var(--ml-accent));
+  color: var(--vscode-button-foreground, #fff);
+}
+.ml-segmented button:focus-visible, .ml-stepper .ml-icon-btn:focus-visible { outline: 1px solid var(--ml-focus); outline-offset: 1px; }
+.ml-popover-note { margin: 0; font-size: 12px; color: var(--ml-muted); }

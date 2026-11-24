@@ -1,0 +1,118 @@
+.ml-mermaid-source { display: none; }
+
+.ml-mermaid[data-state='pending']:not([data-refresh]),
+.ml-mermaid[data-state='rendering']:not([data-refresh]) {
+  border-radius: var(--ml-radius);
+  background: var(--ml-surface);
+  display: grid;
+  place-items: center;
+}
+.ml-mermaid[data-state='pending']:not([data-refresh])::after,
+.ml-mermaid[data-state='rendering']:not([data-refresh])::after {
+  content: 'Rendering diagram…';
+  font: var(--ml-ui-size) var(--ml-font-ui);
+  color: var(--ml-muted);
+}
+
+.ml-diagram {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius);
+  background: var(--ml-bg);
+}
+
+.ml-diagram-viewport {
+  position: relative;
+  overflow: hidden;
+  min-height: 64px;
+  border-radius: var(--ml-radius);
+  outline: none;
+  resize: vertical;
+  touch-action: none;
+}
+.ml-diagram-viewport:focus-visible { box-shadow: inset 0 0 0 1px var(--ml-focus); }
+.ml-diagram-viewport.ml-pannable { cursor: grab; }
+.ml-diagram-viewport.ml-dragging { cursor: grabbing; user-select: none; }
+
+.ml-diagram-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+.ml-diagram-canvas svg { display: block; }
+
+.ml-diagram-tools {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+  border: 1px solid var(--ml-widget-border);
+  border-radius: var(--ml-radius);
+  background: var(--ml-widget-bg);
+  color: var(--ml-widget-fg);
+  box-shadow: 0 2px 8px var(--ml-shadow);
+  opacity: 0;
+  transition: opacity 0.12s;
+  z-index: 2;
+}
+.ml-diagram:hover .ml-diagram-tools,
+.ml-diagram:focus-within .ml-diagram-tools,
+.ml-diagram-tools:has([aria-expanded='true']) { opacity: 1; }
+.ml-diagram-tools .ml-icon-btn { width: 24px; height: 24px; }
+
+.ml-diagram-pct {
+  min-width: 40px;
+  text-align: center;
+  font: 12px var(--ml-font-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--ml-muted);
+}
+
+.ml-diagram-error {
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--ml-caution) 45%, transparent);
+  border-radius: var(--ml-radius);
+  background: color-mix(in srgb, var(--ml-caution) 6%, transparent);
+  font: var(--ml-ui-size) var(--ml-font-ui);
+}
+.ml-diagram-error-title { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--ml-caution); }
+.ml-diagram-error pre { margin: 8px 0 0; padding: 0; font-size: 12px; white-space: pre-wrap; }
+.ml-diagram-error details { margin: 8px 0 0; padding: 0; border: 0; }
+.ml-diagram-error details > summary { font-weight: 500; color: var(--ml-muted); }
+
+/* ---- Full-panel overlay (diagrams and images) ---- */
+
+.ml-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: var(--ml-toolbar-h) minmax(0, 1fr);
+  background: var(--ml-bg);
+}
+.ml-overlay-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 0 14px;
+  border-bottom: 1px solid var(--ml-border);
+}
+.ml-overlay-title { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ml-overlay-tools { display: flex; align-items: center; }
+.ml-overlay .ml-diagram-tools { position: static; opacity: 1; border: 0; box-shadow: none; background: transparent; padding: 0; }
+.ml-overlay-body { position: relative; overflow: hidden; }
+.ml-overlay-body .ml-diagram-viewport {
+  position: absolute;
+  inset: 0;
+  height: auto !important;
+  border-radius: 0;
+  resize: none;
+  cursor: grab;
+}
+.ml-overlay-body .ml-diagram-viewport.ml-dragging { cursor: grabbing; }
+.ml-image-viewport img { display: block; border-radius: 0; cursor: inherit; }

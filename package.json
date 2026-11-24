@@ -1,0 +1,428 @@
+{
+  "name": "marklens",
+  "displayName": "MarkLens",
+  "description": "A better way to read, explore, and navigate Markdown.",
+  "version": "0.1.2",
+  "publisher": "marklens",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PasinduYeshan/marklens.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PasinduYeshan/marklens/issues"
+  },
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1e2430",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "preview",
+    "reader",
+    "mermaid",
+    "table of contents",
+    "documentation",
+    "katex",
+    "math"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onWebviewPanel:marklens.preview"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "marklens.reader",
+        "displayName": "MarkLens Reader",
+        "selector": [
+          {
+            "filenamePattern": "*.md"
+          },
+          {
+            "filenamePattern": "*.markdown"
+          },
+          {
+            "filenamePattern": "*.mdown"
+          },
+          {
+            "filenamePattern": "*.mkd"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "marklens.openPreviewToSide",
+        "title": "Open Preview to the Side",
+        "category": "MarkLens",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "marklens.openPreview",
+        "title": "Open Preview",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.openReader",
+        "title": "Open in MarkLens Reader",
+        "category": "MarkLens",
+        "icon": "$(book)"
+      },
+      {
+        "command": "marklens.openSource",
+        "title": "Open Source",
+        "category": "MarkLens",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "marklens.pin",
+        "title": "Pin Preview",
+        "category": "MarkLens",
+        "icon": "$(pin)"
+      },
+      {
+        "command": "marklens.unpin",
+        "title": "Unpin Preview",
+        "category": "MarkLens",
+        "icon": "$(pinned)"
+      },
+      {
+        "command": "marklens.back",
+        "title": "Go Back",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.forward",
+        "title": "Go Forward",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.find",
+        "title": "Find in Document",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.toggleToc",
+        "title": "Toggle Table of Contents",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.refresh",
+        "title": "Refresh Preview",
+        "category": "MarkLens"
+      },
+      {
+        "command": "marklens.edit",
+        "title": "Edit Markdown",
+        "category": "MarkLens",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "marklens.read",
+        "title": "Read in MarkLens",
+        "category": "MarkLens",
+        "icon": "$(book)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "marklens.read",
+          "when": "editorLangId == markdown && !notebookEditorFocused",
+          "group": "navigation@9"
+        },
+        {
+          "command": "marklens.edit",
+          "when": "activeCustomEditorId == marklens.reader",
+          "group": "navigation@1"
+        },
+        {
+          "command": "marklens.openPreviewToSide",
+          "when": "editorLangId == markdown && !notebookEditorFocused",
+          "group": "navigation@10"
+        },
+        {
+          "command": "marklens.openSource",
+          "when": "activeWebviewPanelId == marklens.preview",
+          "group": "navigation@1"
+        },
+        {
+          "command": "marklens.pin",
+          "when": "activeWebviewPanelId == marklens.preview && !marklens.previewPinned",
+          "group": "navigation@2"
+        },
+        {
+          "command": "marklens.unpin",
+          "when": "activeWebviewPanelId == marklens.preview && marklens.previewPinned",
+          "group": "navigation@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "marklens.openReader",
+          "when": "resourceLangId == markdown",
+          "group": "navigation@20"
+        },
+        {
+          "command": "marklens.openPreviewToSide",
+          "when": "resourceLangId == markdown",
+          "group": "navigation@21"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "marklens.openReader",
+          "when": "resourceLangId == markdown",
+          "group": "1_open"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "marklens.openSource",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.pin",
+          "when": "activeWebviewPanelId == marklens.preview && !marklens.previewPinned"
+        },
+        {
+          "command": "marklens.unpin",
+          "when": "activeWebviewPanelId == marklens.preview && marklens.previewPinned"
+        },
+        {
+          "command": "marklens.back",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.forward",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.find",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.toggleToc",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.refresh",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.edit",
+          "when": "marklens.active"
+        },
+        {
+          "command": "marklens.read",
+          "when": "editorLangId == markdown"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "marklens.openPreviewToSide",
+        "key": "ctrl+k alt+v",
+        "mac": "cmd+k alt+v",
+        "when": "editorLangId == markdown"
+      },
+      {
+        "command": "marklens.find",
+        "key": "ctrl+f",
+        "mac": "cmd+f",
+        "when": "marklens.active"
+      },
+      {
+        "command": "marklens.back",
+        "key": "alt+left",
+        "mac": "cmd+[",
+        "when": "marklens.active"
+      },
+      {
+        "command": "marklens.forward",
+        "key": "alt+right",
+        "mac": "cmd+]",
+        "when": "marklens.active"
+      },
+      {
+        "command": "marklens.toggleToc",
+        "key": "ctrl+shift+o",
+        "mac": "cmd+shift+o",
+        "when": "marklens.active"
+      },
+      {
+        "command": "marklens.edit",
+        "key": "ctrl+e",
+        "mac": "cmd+e",
+        "when": "marklens.active"
+      },
+      {
+        "command": "marklens.read",
+        "key": "ctrl+e",
+        "mac": "cmd+e",
+        "when": "editorTextFocus && marklens.editingFromReader"
+      }
+    ],
+    "configuration": {
+      "title": "MarkLens",
+      "properties": {
+        "marklens.theme": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "light",
+            "paper",
+            "dark"
+          ],
+          "enumDescriptions": [
+            "Follow the VS Code color theme.",
+            "Always light, whatever the VS Code theme.",
+            "A warm, paper-like light theme.",
+            "Always dark, whatever the VS Code theme."
+          ],
+          "default": "auto",
+          "description": "Color theme for MarkLens previews and readers."
+        },
+        "marklens.typography.fontFamily": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Font for body text. Leave empty for the system UI font."
+        },
+        "marklens.typography.codeFontFamily": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Font for code. Leave empty to use `#editor.fontFamily#`."
+        },
+        "marklens.typography.fontSize": {
+          "type": "number",
+          "default": 15,
+          "minimum": 10,
+          "maximum": 28,
+          "description": "Body text size in pixels."
+        },
+        "marklens.typography.lineHeight": {
+          "type": "number",
+          "default": 1.65,
+          "minimum": 1.2,
+          "maximum": 2.2,
+          "description": "Line height for body text."
+        },
+        "marklens.layout.contentWidth": {
+          "type": "string",
+          "enum": [
+            "narrow",
+            "medium",
+            "wide",
+            "full"
+          ],
+          "enumDescriptions": [
+            "About 680 px: best for prose.",
+            "About 840 px: a balance for mixed docs.",
+            "About 1100 px: diagram- and table-heavy docs.",
+            "Use all available width."
+          ],
+          "default": "medium",
+          "description": "Maximum width of the reading column."
+        },
+        "marklens.layout.spacing": {
+          "type": "string",
+          "enum": [
+            "compact",
+            "comfortable",
+            "relaxed"
+          ],
+          "default": "comfortable",
+          "description": "Vertical space between blocks."
+        },
+        "marklens.toc.visible": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the table of contents when a preview opens (when there is room)."
+        },
+        "marklens.toc.depth": {
+          "type": "number",
+          "default": 4,
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Deepest heading level listed in the table of contents."
+        },
+        "marklens.preview.scrollSync": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep the preview and a visible source editor of the same file scrolled together."
+        },
+        "marklens.preview.followActiveEditor": {
+          "type": "boolean",
+          "default": true,
+          "description": "An unpinned side preview shows whichever Markdown editor is active."
+        },
+        "marklens.mermaid.theme": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "default",
+            "neutral",
+            "dark",
+            "forest"
+          ],
+          "default": "auto",
+          "description": "Mermaid theme. 'auto' follows the VS Code color theme."
+        },
+        "marklens.markdown.breaks": {
+          "type": "boolean",
+          "default": false,
+          "description": "Render single line breaks as <br>, like GitHub comments do."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "dev": "node esbuild.mjs && node dev/serve.mjs",
+    "package": "npm run clean && node esbuild.mjs --production && vsce package --no-dependencies",
+    "vscode:prepublish": "npm run clean && node esbuild.mjs --production",
+    "test:vscode": "node esbuild.mjs && esbuild test/integration/suite.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/test/suite.js --log-level=warning && node test/integration/runTest.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "~1.95.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "jsdom": "^31.0.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1",
+    "@vscode/test-electron": "^3.1.0"
+  },
+  "dependencies": {
+    "@vscode/codicons": "^0.0.46-24",
+    "@vscode/markdown-it-katex": "^1.1.2",
+    "dompurify": "^3.5.0",
+    "github-slugger": "^2.0.0",
+    "highlight.js": "^11.12.0",
+    "katex": "^0.19.1",
+    "markdown-it": "^15.0.3",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-front-matter": "^0.2.4",
+    "mermaid": "^12.3.0"
+  }
+}
